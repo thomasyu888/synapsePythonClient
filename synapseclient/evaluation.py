@@ -135,6 +135,8 @@ class Evaluation(DictObject):
         if not kwargs['contentSource'].startswith('syn'):  # Verify that synapse Id given
             raise ValueError('The "contentSource" parameter must be specified as a Synapse Entity when creating an'
                              ' Evaluation')
+        if 'quota' in kwargs:
+            kwargs['quota'] = SubmissionQuota(**kwargs['quota'])
         super(Evaluation, self).__init__(kwargs)
 
     def postURI(self):
@@ -210,3 +212,23 @@ class SubmissionStatus(DictObject):
     def deleteURI(self):
         return '/evaluation/submission/%s/status' % self.id
 
+
+class SubmissionQuota(DictObject):
+    """
+    Maximum submissions per team/participant per submission round.
+    If round information is omitted, then this indicates the overall
+    submission limit per team/participant.
+
+    :param firstRoundStart:      The date/time at which the first round begins. Default to None.
+    :param roundDurationMillis:  The duration of each round in milliseconds. Default to None.
+    :param numberOfRounds:       The number of rounds. Default to None - never ending.
+    :param submissionLimit:      The maximum number of submissions per team/participant per round. Default to None - unlimited
+    """
+    def __init__(self, **kwargs):
+        quotas = ['firstRoundStart', 'roundDurationMillis',
+                  'numberOfRounds', 'submissionLimit']
+        for key, value in kwargs.items():
+            if key not in quotas:
+                raise KeyError("Quota only accepts: {}".format(', '.join(quotas)))
+            kwargs[key] = int(value)
+        super(SubmissionQuota, self).__init__(**kwargs)
