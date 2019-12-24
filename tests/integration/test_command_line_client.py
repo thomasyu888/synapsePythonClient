@@ -670,7 +670,7 @@ def test_command_line_using_paths():
     activity_id = parse(r'Set provenance record (\d+) on entity syn\d+', output)
 
     output = run('synapse', '--skip-checks', 'get-provenance',
-                 '-id', file_entity2.id)
+                 '--id', file_entity2.id)
     activity = json.loads(output)
     assert_equals(activity['name'], 'TestActivity')
     assert_equals(activity['description'], 'A very excellent provenance')
