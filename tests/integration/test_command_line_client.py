@@ -235,7 +235,7 @@ def test_command_line_client_annotations():
                  'create',
                  '--name',
                  str(uuid.uuid4()),
-                 '-description',
+                 '--description',
                  'test of command line client',
                  'Project')
     project_id = parse(r'Created entity:\s+(syn\d+)\s+', output)
