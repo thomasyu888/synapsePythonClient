@@ -878,7 +878,7 @@ class Synapse(object):
             if isinstance(obj, Wiki):
                 return self._storeWiki(obj, createOrUpdate)
 
-            if 'id' in obj:  # If ID is present, update
+            if 'id' in obj or 'ownerId' in obj:  # If ID is present, update
                 return type(obj)(**self.restPUT(obj.putURI(), obj.json()))
 
             try:  # If no ID is present, attempt to POST the object

@@ -34,6 +34,9 @@ class UserProfile(DictObject):
     def __init__(self, **kwargs):
         super(UserProfile, self).__init__(kwargs)
 
+    def putURI(self):
+        return '/userProfile'
+
 
 class UserGroupHeader(DictObject):
     """
